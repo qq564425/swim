@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hdnav.dao.RolePermissionMapper"> 
+    
+    <select id="getPermissionIdSetByRoleId" resultType="java.lang.Integer">
+    	select permission_id from role_permission where role_id = #{account}
+    </select>
+    
+    <insert id="addRolePermission" parameterType="com.hdnav.entity.RolePermission">
+    	insert into role_permission(role_id, permission_id) 
+    		values 
+    	(#{roleId}, #{permissionId})
+    </insert>
+    
+    <delete id="deleteByPerId" parameterType="java.lang.Integer">
+    	delete from role_permission where permission_id = #{perId}
+    </delete>
+    
+    <delete id="deleteByRoleId" parameterType="java.lang.Integer">
+    	delete from role_permission where role_id = #{roleId}
+    </delete>
+    
+</mapper>

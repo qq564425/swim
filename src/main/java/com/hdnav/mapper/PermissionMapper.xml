@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hdnav.dao.PermissionMapper"> 
+    
+    <resultMap id="PermissionResultMap" type="com.hdnav.entity.Permission">  
+        <id column="id" property="id" jdbcType="INTEGER" />  
+        <result column="parent_id" property="parentId" jdbcType="INTEGER" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="key" property="key" jdbcType="VARCHAR" />
+        <result column="order" property="order" jdbcType="INTEGER" />
+        <result column="isexit" property="isExit" jdbcType="VARCHAR" />
+    </resultMap>  
+    
+    <select id="selectAll" resultMap="PermissionResultMap">
+    	select * from permission order by `ORDER` asc
+    </select>
+    
+    <select id="selectPage" resultMap="PermissionResultMap">
+    	select * from permission order by `order` asc limit #{offset}, #{limit}
+    </select>
+    
+    <insert id="createPermission" parameterType="com.hdnav.entity.Permission">
+    	insert into permission(parent_id, `NAME`, `KEY`, `ORDER`) 
+    		values 
+    	(#{parentId}, #{name}, #{key}, #{order})
+    </insert>
+    
+    <delete id="deletePermission" parameterType="java.lang.Integer">
+    	delete from permission where `ID` = #{perId}
+    </delete>
+    
+    <update id="updatePermission" parameterType="com.hdnav.entity.Permission">
+    	update permission set parent_id = #{parentId}, `NAME` = #{name}, `KEY` = #{key}, `ORDER` = #{order}
+    	 where `ID` = #{id}
+    </update>
+    
+    <select id="isExitPermission" resultMap="PermissionResultMap">
+
+	              SELECT p.*,'true' as isexit from permission p where `ID` in 
+	          (
+	             select permission_id from role_permission where role_id in
+	              (
+	                <if test="accountId != null and accountId != ''">
+	                   select role_id from account_role where account_id=#{accountId}
+	                </if>
+	              )
+	          )
+               UNION
+	             SELECT p.*,'false' as isexit from permission p where `ID` not in 
+	         (
+	            select permission_id from role_permission where role_id in 
+	            (
+	               <if test="accountId != null and accountId != ''">
+	                  select role_id from account_role where account_id=#{accountId}
+	               </if>
+	            )
+	         )
+    </select>
+    
+    <select id="getVtsPermissions" resultMap="PermissionResultMap">
+    	select * from permission where `KEY` like 'vts:%' order by `ORDER` asc
+    </select>
+    
+</mapper>

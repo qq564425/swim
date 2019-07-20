@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hdnav.dao.RoleMapper"> 
+    
+    <select id="selectAll" resultType="com.hdnav.entity.Role">
+    	select * from role
+    </select>
+    
+    <select id="queryRoleInfo" resultType="com.hdnav.entity.Role">
+    	select * from role where `KEY` = #{key}
+    </select>
+    
+    <insert id="createRole" parameterType="com.hdnav.entity.Role">
+    	insert into role(`NAME`, `KEY`) 
+    		values 
+    	(#{name}, #{key})
+    </insert>
+    
+    <delete id="deleteRole" parameterType="java.lang.Integer">
+    	delete from role where `ID` = #{roleId}
+    </delete>
+    
+    <update id="updateRole" parameterType="com.hdnav.entity.Role">
+    	update role set `NAME` = #{name}, `KEY` = #{key} where id = #{id}
+    </update>
+    
+</mapper>

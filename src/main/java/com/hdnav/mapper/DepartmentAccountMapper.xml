@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hdnav.dao.DepartmentAccountMapper"> 
+    
+    <select id="getDepIdByAccountId" resultType="Integer">
+    	select dep_id from department_account where account_id = #{accountId}
+    </select>
+    
+    <select id="selectAllDepartmentId" resultType="Integer">
+    	select dep_id from department_account
+    </select>
+    
+    <delete id="deleteByDepId" parameterType="java.lang.Integer">
+    	delete from department_account where 1=1 and dep_id = #{id}
+    </delete>
+    
+    <select id="getByAccountId" parameterType="java.lang.Integer" resultType="com.hdnav.entity.DepartmentAccount">
+    	select `id`,dep_id as depId,account_id as accountId from department_account where account_id = #{accountId}
+    </select>
+    
+    <select id="selectAll" resultType="com.hdnav.entity.DepartmentAccount">
+    	select `id`,dep_id as depId,account_id as accountId from department_account order by `id` asc
+    </select>
+    
+    <insert id="save" parameterType="com.hdnav.entity.DepartmentAccount">
+    	INSERT INTO department_account(dep_id,account_id)VALUES(#{depId,jdbcType=INTEGER},#{accountId,jdbcType=INTEGER})
+    </insert>
+    
+    <delete id="deleteByAccountId" parameterType="java.lang.Integer">
+    	delete from department_account where 1=1 and account_id = #{accountId}
+    </delete>
+    
+    <update id="update" parameterType="com.hdnav.entity.DepartmentAccount">
+    	update department_account set dep_id = #{depId,jdbcType=INTEGER},account_Id = #{accountId,jdbcType=INTEGER} where id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hdnav.dao.AccountMapper"> 
+    
+    <select id="getByAccount" resultType="com.hdnav.entity.Account">
+    	select `ID`,`account`,password,register_time as registerTime from account where `account` = #{account}
+    </select>
+    
+    <select id="getById" resultType="com.hdnav.entity.Account">
+    	select `ID`,`account`,`password`,register_time as registerTime from account where `ID` = #{id}
+    </select>
+    
+    <select id="selectAll" resultType="com.hdnav.entity.Account">
+    	select `ID`,`account`,`password`,register_time as registerTime from account order by `ID` asc
+    </select>
+    
+    <select id="safeSelectAll" resultType="com.hdnav.entity.Account">
+    	select `ID`, `account` from account order by `ID` asc
+    </select>
+    
+    <select id="get" parameterType="java.lang.Integer" resultType="com.hdnav.entity.Account">
+    	select `ID`,`account`,`password`,register_time as registerTime from account where `ID` = #{id}
+    </select>
+    
+    <select id="selectPage" parameterType="java.lang.Integer" resultType="com.hdnav.entity.Account">
+    	select `id`,`account`,register_time as registerTime,`password` from account order by `id` limit #{offset}, #{limit}
+    </select>
+    
+    <insert id="save" parameterType="com.hdnav.entity.Account">
+    	INSERT INTO account(`account`,`password`,register_time)VALUES(#{account,jdbcType=VARCHAR},#{password,jdbcType=VARCHAR},#{registerTime,jdbcType=TIMESTAMP})
+    </insert>
+    
+    <delete id="delete" parameterType="java.lang.Integer">
+    	DELETE FROM account WHERE `ID` = #{accountId}
+    </delete>
+    
+    <update id="update" parameterType="com.hdnav.entity.Account">
+    	update account set `password` = #{password,jdbcType=VARCHAR},register_time = #{registerTime,jdbcType=TIMESTAMP} where `ACCOUNT` = #{account,jdbcType=VARCHAR}
+    </update>
+    
+</mapper>

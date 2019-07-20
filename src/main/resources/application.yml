@@ -1,0 +1,33 @@
+server:
+  port: 8082
+
+spring:
+  datasource:
+    url: jdbc:mysql://47.94.4.25/swim?useSSL=false&useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true
+    username: root
+    password: sxt-swim
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    
+jedis:
+  pool:  
+    host: 47.94.4.25
+    port: 6379
+    timeout: 1800000
+    config:  
+      maxTotal: 1000
+      maxIdle: 200
+      maxWaitMillis: 100000
+      testOnBorrow: true
+
+mybatis: 
+  mapper-locations:
+  - classpath:com/hdnav/mapper/*.xml
+  type-aliases-package: com.hdnav.entity
+  
+logging:
+  config: classpath:logback-spring-error.xml
+
+        
+sha256:
+    publicKey: 012345678901234567890123456789X #公钥
+    privateKey: 012345678901234567890123456789XY #私钥

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hdnav.dao.DepartmentMapper"> 
+<resultMap id="departmentResultMap" type="com.hdnav.entity.Department" >
+            <id column="ID" property="id" jdbcType="DECIMAL" />
+            <result column="PARENT_ID" property="parentId" jdbcType="DECIMAL" />
+            <result column="NAME" property="name" jdbcType="VARCHAR" />
+            <result column="ORDER" property="order" jdbcType="DECIMAL" />
+            <result column="ADMINISTRATION_LEVEL" property="administrationLevel" jdbcType="VARCHAR" />
+            <result column="BUSINESS_LEVEL" property="businessLevel" jdbcType="VARCHAR" />
+            <result column="USE_MARK" property="useMark" jdbcType="VARCHAR" />
+            <result column="INPUT_MAN" property="inputMan" jdbcType="VARCHAR" />
+            <result column="INPUT_TIME" property="inputTime" jdbcType="VARCHAR" />
+</resultMap>
+    <select id="selectPage" parameterType="java.lang.Integer" resultMap="departmentResultMap">
+		select `id`,name,parent_id as parentId,`order` from department order by `order` asc limit #{offset}, #{limit}
+    </select>
+    
+    <select id="selectAll" resultMap="departmentResultMap">
+    	select * from DEPARTMENT order by `ORDER` asc
+    </select>
+    
+    <insert id="create" parameterType="Department">
+     	insert into DEPARTMENT (parent_id,`NAME`,`ORDER`)
+     	values (
+				#{parentId,jdbcType=DECIMAL},
+				#{name,jdbcType=VARCHAR},
+				#{order,jdbcType=DECIMAL}
+		)
+  	</insert>
+  	
+  	<delete id="delete" parameterType="java.lang.Integer">
+  		DELETE FROM department WHERE `ID` = #{id}
+  	</delete>
+  	
+  	<update id="update" parameterType="Department">
+  		update DEPARTMENT
+	    <set >
+			<if test="parentId != null " >
+				parent_id = #{parentId,jdbcType=DECIMAL},
+			</if>
+			<if test="name != null  and name != ''" >
+				`NAME` = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="order != null " >
+				`ORDER` = #{order,jdbcType=DECIMAL},
+			</if>
+	    </set>
+	    where `ID` = #{id,jdbcType=DECIMAL}
+  	</update>
+  	
+  	<!-- 根据用户id查询其所在部门 -->
+  	<select id="selectAccountDep" parameterType="java.lang.Integer" resultMap="departmentResultMap">
+		SELECT * from DEPARTMENT where `ID` = (SELECT DEP_ID from DEPARTMENT_ACCOUNT where ACCOUNT_ID = #{accountId,jdbcType=DECIMAL})
+    </select>
+</mapper>

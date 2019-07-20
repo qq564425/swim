@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hdnav.dao.AccountRoleMapper"> 
+    
+    <select id="selectRoleIdSet" resultType="java.lang.Integer">
+    	select role_id from account_role where account_id = #{accountId}
+    </select>
+    
+    <delete id="deleteByAccountId" parameterType="java.lang.Integer">
+    	DELETE FROM account_role WHERE account_id = #{accountId}
+    </delete>
+    
+    <insert id="createAccountRole" parameterType="com.hdnav.entity.AccountRole">
+    	insert into account_role(account_id, role_id) 
+    		values 
+    	(#{accountId}, #{roleId})
+    </insert>
+    
+    <delete id="deleteByRoleId" parameterType="java.lang.Integer">
+    	delete from account_role where role_id = #{roleId}
+    </delete>
+</mapper>

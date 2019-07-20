@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+ 
+    <appender name="rollingFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+<!--        <file>${LOG_PATH}/vtmis_server.log</file>-->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${catalina.home}/logs/vtmis_server/vtmis_server.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+            <!-- 保留7天的日志数据 -->
+            <maxHistory>7</maxHistory>
+            <!-- 日志最大的储存量为3GB -->
+            <totalSizeCap>3GB</totalSizeCap>
+            <timeBasedFileNamingAndTriggeringPolicy
+                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <!-- 最大64MB 超过最大值，会重新建一个文件-->
+                <maxFileSize>30 MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+ 
+    <!--myibatis log configure--> 
+    <logger name="com.ibatis" level="DEBUG" />  
+	<logger name="com.ibatis.common.jdbc.SimpleDataSource" level="DEBUG" />  
+	<logger name="com.ibatis.common.jdbc.ScriptRunner" level="DEBUG" />  
+	<logger name="com.ibatis.sqlmap.engine.impl.SqlMapClientDelegate" level="DEBUG" />  
+	<logger name="java.sql.Connection" level="DEBUG" />  
+	<logger name="java.sql.Statement" level="DEBUG" />  
+	<logger name="java.sql.PreparedStatement" level="DEBUG" /> 
+    
+    
+    
+    <root level="DEBUG">
+        <appender-ref ref="console" />
+        <appender-ref ref="rollingFile" />
+    </root>
+</configuration>
